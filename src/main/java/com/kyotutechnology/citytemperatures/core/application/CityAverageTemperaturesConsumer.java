@@ -4,7 +4,7 @@ import static java.time.temporal.ChronoField.YEAR;
 import static java.util.stream.Collectors.toMap;
 
 import com.kyotutechnology.citytemperatures.core.ports.primary.YearlyAvgTemperature;
-import com.kyotutechnology.citytemperatures.core.ports.secondary.CityTemperatureMeasurementEntity;
+import com.kyotutechnology.citytemperatures.core.ports.secondary.TemperatureMeasurementEntity;
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.Consumer;
@@ -14,13 +14,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.Value;
 
 @RequiredArgsConstructor
-class CityAverageTemperaturesConsumer implements Consumer<Stream<CityTemperatureMeasurementEntity>> {
+class CityAverageTemperaturesConsumer implements Consumer<Stream<TemperatureMeasurementEntity>> {
   private final String cityName;
   @Getter
   private List<YearlyAvgTemperature> avgTemperatures;
 
   @Override
-  public void accept(Stream<CityTemperatureMeasurementEntity> measurementsStream) {
+  public void accept(Stream<TemperatureMeasurementEntity> measurementsStream) {
     this.avgTemperatures = measurementsStream
         .filter(measurement -> measurement.getCityName().equals(cityName))
         .collect(toMap(
@@ -34,7 +34,7 @@ class CityAverageTemperaturesConsumer implements Consumer<Stream<CityTemperature
         .toList();
   }
 
-  private int getMeasurementYear(CityTemperatureMeasurementEntity measurement) {
+  private int getMeasurementYear(TemperatureMeasurementEntity measurement) {
     // TODO the year should be universal (UTC, not local to city). Improvement might be converting LocalDateTime to Instant based on city.
     return measurement.getMeasuredAt().get(YEAR);
   }
@@ -44,7 +44,7 @@ class CityAverageTemperaturesConsumer implements Consumer<Stream<CityTemperature
     int measurementsCount;
     double measurementsSum;
 
-    public MeasurementsAverageAccumulator(CityTemperatureMeasurementEntity initialMeasurement) {
+    public MeasurementsAverageAccumulator(TemperatureMeasurementEntity initialMeasurement) {
       this.measurementsCount = 1;
       this.measurementsSum = initialMeasurement.getTemperature();
     }

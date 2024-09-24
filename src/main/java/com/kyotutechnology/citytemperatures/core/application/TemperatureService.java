@@ -2,10 +2,10 @@ package com.kyotutechnology.citytemperatures.core.application;
 
 import static java.util.stream.Collectors.toMap;
 
-import com.kyotutechnology.citytemperatures.core.ports.primary.AverageTemperatureServicePort;
+import com.kyotutechnology.citytemperatures.core.ports.primary.TemperatureServicePort;
 import com.kyotutechnology.citytemperatures.core.ports.primary.MeasurementsReadException;
 import com.kyotutechnology.citytemperatures.core.ports.primary.YearlyAvgTemperature;
-import com.kyotutechnology.citytemperatures.core.ports.secondary.CityTemperatureMeasurementRepositoryPort;
+import com.kyotutechnology.citytemperatures.core.ports.secondary.TemperatureMeasurementRepositoryPort;
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -17,11 +17,11 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-class CityTemperatureService implements AverageTemperatureServicePort {
-  private final CityTemperatureMeasurementRepositoryPort repositoryPort;
+class TemperatureService implements TemperatureServicePort {
+  private final TemperatureMeasurementRepositoryPort repositoryPort;
 
   @Async
-  public CompletableFuture<List<YearlyAvgTemperature>> findYearAvgTemperaturesByCityName(String cityName) throws MeasurementsReadException {
+  public CompletableFuture<List<YearlyAvgTemperature>> findYearlyAvgTemperaturesByCityName(String cityName) throws MeasurementsReadException {
     CityAverageTemperaturesConsumer consumer = new CityAverageTemperaturesConsumer(cityName);
     try {
       repositoryPort.consumeAllAsStream(consumer);

@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import lombok.Value;
 
 @Value
-public class CityTemperatureMeasurementEntity {
+public class TemperatureMeasurementEntity {
   String cityName;
   LocalDateTime measuredAt;
   double temperature;

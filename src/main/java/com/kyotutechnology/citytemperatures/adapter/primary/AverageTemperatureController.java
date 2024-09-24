@@ -1,6 +1,6 @@
 package com.kyotutechnology.citytemperatures.adapter.primary;
 
-import com.kyotutechnology.citytemperatures.core.ports.primary.AverageTemperatureServicePort;
+import com.kyotutechnology.citytemperatures.core.ports.primary.TemperatureServicePort;
 import com.kyotutechnology.citytemperatures.core.ports.primary.MeasurementsReadException;
 import com.kyotutechnology.citytemperatures.core.ports.primary.YearlyAvgTemperature;
 import java.util.List;
@@ -18,14 +18,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/average-temperatures")
 @RequiredArgsConstructor
-class CityAverageTemperatureController {
-  private final AverageTemperatureServicePort servicePort;
+class AverageTemperatureController {
+  private final TemperatureServicePort servicePort;
 
   @GetMapping("/{cityName}")
   @ResponseBody
   CompletableFuture<List<YearlyAvgTemperature>> findCityAverageTemperatures(@PathVariable String cityName)
       throws MeasurementsReadException {
-    return servicePort.findYearAvgTemperaturesByCityName(cityName);
+    return servicePort.findYearlyAvgTemperaturesByCityName(cityName);
   }
 
   @ExceptionHandler

@@ -1,7 +1,7 @@
 package com.kyotutechnology.citytemperatures.adapter.secondary;
 
-import com.kyotutechnology.citytemperatures.core.ports.secondary.CityTemperatureMeasurementEntity;
-import com.kyotutechnology.citytemperatures.core.ports.secondary.CityTemperatureMeasurementRepositoryPort;
+import com.kyotutechnology.citytemperatures.core.ports.secondary.TemperatureMeasurementEntity;
+import com.kyotutechnology.citytemperatures.core.ports.secondary.TemperatureMeasurementRepositoryPort;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -14,18 +14,18 @@ import org.springframework.stereotype.Repository;
 
 @Slf4j
 @Repository
-class FileCityTemperatureMeasurementRepositoryAdapter implements CityTemperatureMeasurementRepositoryPort {
+class CsvTemperatureMeasurementRepositoryAdapter implements TemperatureMeasurementRepositoryPort {
   private final Path dataFilePath;
-  private final CityTemperatureMeasurementEntityConverter converter;
+  private final TemperatureMeasurementEntityConverter converter;
 
-  public FileCityTemperatureMeasurementRepositoryAdapter(@Value("${repository.file.path}") String dataFilePath,
-                                                         CityTemperatureMeasurementEntityConverter converter) {
+  public CsvTemperatureMeasurementRepositoryAdapter(@Value("${repository.file.path}") String dataFilePath,
+                                                    TemperatureMeasurementEntityConverter converter) {
     this.dataFilePath = Paths.get(dataFilePath);
     this.converter = converter;
   }
 
   @Override
-  public void consumeAllAsStream(Consumer<Stream<CityTemperatureMeasurementEntity>> measurementsConsumer)
+  public void consumeAllAsStream(Consumer<Stream<TemperatureMeasurementEntity>> measurementsConsumer)
       throws IOException {
     try (Stream<String> csvStream = Files.lines(this.dataFilePath)) {
       measurementsConsumer.accept(csvStream.map(converter::convert));
