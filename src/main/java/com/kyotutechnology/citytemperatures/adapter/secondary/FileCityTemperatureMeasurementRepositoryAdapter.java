@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.function.Consumer;
 import java.util.stream.Stream;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,9 +25,10 @@ class FileCityTemperatureMeasurementRepositoryAdapter implements CityTemperature
   }
 
   @Override
-  public Stream<CityTemperatureMeasurementEntity> findMeasurementsByCityAsStream(String cityName) throws IOException {
-    return Files.lines(this.dataFilePath)
-        .map(converter::convert)
-        .filter(measurement -> measurement.getCityName().equals(cityName));
+  public void consumeAllAsStream(Consumer<Stream<CityTemperatureMeasurementEntity>> measurementsConsumer)
+      throws IOException {
+    try (Stream<String> csvStream = Files.lines(this.dataFilePath)) {
+      measurementsConsumer.accept(csvStream.map(converter::convert));
+    }
   }
 }
