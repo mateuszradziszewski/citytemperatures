@@ -1,0 +1,9 @@
+repository:
+  file:
+    path: ./example.csv
+
+logging:
+  level:
+    com:
+      kyotutechnology:
+        citytemperatures: DEBUG

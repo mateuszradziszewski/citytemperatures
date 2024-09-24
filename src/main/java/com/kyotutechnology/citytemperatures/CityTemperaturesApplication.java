@@ -1,0 +1,14 @@
+package com.kyotutechnology.citytemperatures;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableAsync;
+
+@EnableAsync
+@SpringBootApplication
+public class CityTemperaturesApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(CityTemperaturesApplication.class, args);
+    }
+}
