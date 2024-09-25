@@ -22,3 +22,4 @@ Below you can find list of features of the project setup that are worth to highl
 3. Converting measurement local date times to UTC instants - currently measurement times do not have zone offset. This suggest that they are local to where the measurement was taken. An improvement would be to convert them to UTC instants based on time zone of the city before aggregating the to averages.
 4. Validating measurements read from the file - current implementation assumes the data is always valid
 5. Code coverage - only some sample unit tests and integration tests were added as examples.
+6. Preloading into database - serving HTTP requests could be done by looking up results in database. Measurements could be asynchronously loaded into database and indexed by city name.
